@@ -13,14 +13,21 @@
 				</svg>
 			</button>
 
-   		<div class="modal-hero">
-        <h2 class="modal-title">{{ section.settings.modal_title }}</h2>
-        {% if section.settings.modal_image %}
-          {{ section.settings.modal_image | image_url: width: 374, height: 360 | image_tag: width: 374, height: 360, class: 'modal-img' }}
-        {% else %}
-          <img src="https://placecats.com/374/360" width="100%" height="auto" class="modal-img" alt="Modal Image">
-        {% endif %}
-      </div>
+			<div class="modal-hero">
+				<h2 class="modal-title">{{ section.settings.modal_title }}</h2>
+				{% if section.settings.modal_image %}
+					{{ section.settings.modal_image | image_url: width: 748 | image_tag: class: 'modal-img', alt: section.settings.modal_title, loading: 'lazy', sizes: '(max-width: 600px) 252px, 484px', widths: '252, 400, 484, 748' }}
+				{% else %}
+					<img 
+					src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Crect fill='%2300000' width='1' height='1'/%3E%3C/svg%3E" 
+					class="modal-img" 
+					alt="Modal placeholder image"
+					loading="lazy"
+					width="484"
+					height="467"
+				>
+				{% endif %}
+			</div>
 
 			<p class="modal-description">USE CODE <span class="discount-code">{{  section.settings.discount_code }}</span> FOR $5 OFF YOUR FIRST ORDER</p>
 

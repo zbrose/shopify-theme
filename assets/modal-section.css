@@ -31,7 +31,6 @@
   padding: 52px 48px;
   box-shadow: var(--goodr-shadow);
   box-sizing: border-box;
-  overflow-y: auto;
 }
 
 .modal-hero {
@@ -45,22 +44,21 @@
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
-  font-size: clamp(1.25rem, 4vw, 2rem);
-  padding: 0 15px;
-  width: 90%;
+  font-size: 4rem;
   z-index: 1;
+  margin: 0;
 }
 
 .modal-description {
   font-weight: 700;
-  font-size: clamp(18px, 3.5vw, 24px);
+  font-size: clamp(18px, 4vw, 24px);
   color: var(--modal-navy);
   margin: 1rem 0 2rem 0;
 }
 
 .discount-code {
   font-weight: 700;
-  font-size: clamp(20px, 3.5vw, 24px);
+  font-size: clamp(18px, 4vw, 24px);
   color: #e06287;
   margin-top: 20px;
 }
@@ -114,7 +112,7 @@
   border: 2px solid var(--modal-navy);
   text-decoration: none;
   font-weight: 700;
-  font-size: clamp(16px, 2.5vw, 18px);
+  font-size: clamp(16px, 4vw, 18px);
   color: white;
   text-shadow: -2.75px 2.75px var(--modal-navy);
   -webkit-text-stroke: 1px var(--modal-navy);
@@ -137,7 +135,7 @@
   background-color: transparent;
   text-decoration: underline solid var(--modal-navy) 1px;
   text-underline-offset: 2px;
-  font-size: clamp(16px, 2.5vw, 18px);
+  font-size: clamp(16px, 4vw, 18px);
   font-weight: 700;
   transition: color 0.2s ease;
 }
@@ -147,7 +145,7 @@
 }
 
 /* Tablet */
-@media screen and (max-width: 768px) {
+/* @media screen and (max-width: 768px) {
   .modal-content {
     padding: 40px 32px;
   }
@@ -155,50 +153,29 @@
   .modal-description {
     margin: 0.75rem 0 1.5rem 0;
   }
-}
-
-@media screen and (max-width: 600px) {
-  .modal-content {
-    width: 90%;
-    padding: 32px 24px;
-  }
-
-  .modal-img {
-    width: 100%;
-    height: auto;
-  }
-}
+} */
 
 /* Mobile */
 @media screen and (max-width: 600px) {
-  .modal-overlay {
-    padding: 15px;
-  }
-
   .modal-content {
-    padding: 32px 24px;
-    border-width: 2px;
-    --goodr-shadow: -3px 3px var(--modal-navy);
+    padding: 35px 37px;
+    --goodr-shadow: -2.75px 2.75px var(--modal-navy);
+    border-radius: 4px;
+    max-height: 550px;
+    max-width: 326px;
   }
 
   .close-modal-btn {
-    top: 10px;
-    right: 10px;
-    width: 28px;
-    height: 28px;
+    top: 5px;
+    right: 5px;
   }
 
-  .modal-btn-group {
-    margin-top: 1rem;
-  }
-
-  .confirm-modal-btn {
-    padding: 14px 0px;
+  .confirm-modal-btn:active {
+    transform: translate(0px);
   }
 }
 
-/* Small mobile */
-@media screen and (max-width: 400px) {
+/* @media screen and (max-width: 400px) {
   .modal-content {
     padding: 24px 16px;
   }
@@ -210,4 +187,4 @@
   .discount-code {
     margin-top: 15px;
   }
-}
+} */
