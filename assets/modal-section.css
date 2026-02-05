@@ -6,7 +6,7 @@
 }
 
 .custom-modal-section.is-active {
-  visibility: visible; /* Changed from display: block */
+  visibility: visible;
 }
 
 .modal-overlay {
@@ -19,19 +19,18 @@
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  background: rgba(0, 0, 0, 0); /* Start transparent - CHANGED */
+  background: rgba(0, 0, 0, 0); 
   padding: 20px;
   transition: background 0.3s ease;
-  pointer-events: none; /* Disable clicks when hidden */
-}
+  pointer-events: none; 
 
 .custom-modal-section.is-active .modal-overlay {
-  background: rgba(0, 0, 0, 0.6); /* Fade TO dark */
-  pointer-events: auto; /* Enable clicks when visible */
+  background: rgba(0, 0, 0, 0.6);
+  pointer-events: auto; 
 }
 
 .custom-modal-section.is-closing .modal-overlay {
-  background: rgba(0, 0, 0, 0); /* Fade back to transparent */
+  background: rgba(0, 0, 0, 0); 
 }
 
 .modal-content {
@@ -69,15 +68,13 @@
   margin-bottom: 1rem;
 }
 
-.modal-title {
+.modal-logo {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: white;
-  font-size: 4rem;
   z-index: 1;
-  margin: 0;
+  width: 200px;
 }
 
 .modal-description {
@@ -175,7 +172,6 @@
   opacity: 0.7;
 }
 
-/* Mobile */
 @media screen and (max-width: 600px) {
   .modal-content {
     padding: 35px 37px;

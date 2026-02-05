@@ -28,12 +28,6 @@ class GoodrPopup {
       this.confirmBtn.addEventListener('click', e => this.handleConfirm(e));
     }
 
-    // this.overlay.addEventListener('click', e => {
-    //   if (e.target === this.overlay) {
-    //     this.close();
-    //   }
-    // });
-
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape' && this.container.classList.contains('is-active')) {
         this.close();

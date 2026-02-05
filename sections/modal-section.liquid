@@ -5,25 +5,40 @@
     <div class="modal-content">
 
 			<button class="close-modal-btn" aria-label="Close modal">
-				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-					<line x1="20" y1="6" x2="6" y2="20"></line>
-					<line x1="6" y1="6" x2="20" y2="20"></line>
-				</svg>
+				<img 
+					src="{{ 'x.svg' | asset_url }}" 
+					class="close-icon" 
+					alt="Close Icon"
+					loading="lazy"
+					width="20"
+					height="20"	
+				>
 			</button>
 
 			<div class="modal-hero">
-				<h2 class="modal-title">{{ section.settings.modal_title }}</h2>
-				{% if section.settings.modal_image %}
-					{{ section.settings.modal_image | image_url: width: 748 | image_tag: class: 'modal-img', alt: section.settings.modal_title, loading: 'lazy', sizes: '(max-width: 600px) 252px, 484px', widths: '252, 400, 484, 748' }}
+				{% if section.settings.modal_logo %}
+					{{ section.settings.modal_logo | image_url: width: 748 | image_tag: class: 'modal-img', alt: section.settings.modal_logo_alt, loading: 'lazy', sizes: '(max-width: 600px) 252px, 484px', widths: '252, 400, 484, 748' }}
 				{% else %}
 					<img 
-					src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Crect fill='%2300000' width='1' height='1'/%3E%3C/svg%3E" 
-					class="modal-img" 
-					alt="Modal placeholder image"
-					loading="lazy"
-					width="484"
-					height="467"
-				>
+						src="{{ 'goodr_logo_white.svg' | asset_url }}" 
+						class="modal-logo" 
+						alt="Modal placeholder Logo"
+						loading="lazy"
+						width="200"
+						height="auto"
+					>
+				{% endif %}
+				{% if section.settings.modal_image %}
+					{{ section.settings.modal_image | image_url: width: 748 | image_tag: class: 'modal-img', alt: section.settings.modal_image_alt, loading: 'lazy', sizes: '(max-width: 600px) 252px, 484px', widths: '252, 400, 484, 748' }}
+				{% else %}
+					<img 
+						src="{{ 'desktop_popup_img.png' | asset_url }}" 
+						class="modal-img" 
+						alt="Modal placeholder image"
+						loading="lazy"
+						width="484"
+						height="467"
+					>
 				{% endif %}
 			</div>
 
@@ -54,11 +69,22 @@
       "default": "Open Modal"
     },
     {
-      "type": "text",
-      "id": "modal_title",
-      "label": "Modal Title",
-      "default": "goodr"
+      "type": "image_picker",
+      "id": "modal_logo",
+      "label": "Modal Logo"
     },
+		{
+			"type": "text",
+			"id": "modal_logo_alt",
+			"label": "Modal Logo Alt Text",
+			"default": "Modal Logo"
+		}, 
+		{
+			"type": "text",
+			"id": "modal_image_alt",
+			"label": "Modal Image Alt Text",
+			"default": "Modal Image"
+		}, 
     {
       "type": "textarea",
       "id": "modal_description",
