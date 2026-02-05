@@ -2,11 +2,11 @@
   --modal-navy: #0c2340;
   --goodr-shadow: -4px 4px var(--modal-navy);
   --goodr-font: canada-type-gibson, sans-serif;
-  display: none;
+  visibility: hidden;
 }
 
 .custom-modal-section.is-active {
-  display: block;
+  visibility: visible; /* Changed from display: block */
 }
 
 .modal-overlay {
@@ -19,12 +19,19 @@
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0); /* Start transparent - CHANGED */
   padding: 20px;
+  transition: background 0.3s ease;
+  pointer-events: none; /* Disable clicks when hidden */
 }
 
 .custom-modal-section.is-active .modal-overlay {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.6); /* Fade TO dark */
+  pointer-events: auto; /* Enable clicks when visible */
+}
+
+.custom-modal-section.is-closing .modal-overlay {
+  background: rgba(0, 0, 0, 0); /* Fade back to transparent */
 }
 
 .modal-content {
@@ -40,6 +47,21 @@
   padding: 52px 48px;
   box-shadow: var(--goodr-shadow);
   box-sizing: border-box;
+  opacity: 0;
+  transform: scale(0.7) translateY(-20px);
+  transition:
+    opacity 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.custom-modal-section.is-active .modal-content {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.custom-modal-section.is-closing .modal-content {
+  opacity: 0;
+  transform: scale(0.9) translateY(20px);
 }
 
 .modal-hero {
@@ -116,7 +138,8 @@
   box-shadow: var(--goodr-shadow);
   transition:
     box-shadow 0.3s ease,
-    transform 0.3s ease;
+    transform 0.3s ease,
+    background-color 0.3s ease;
   border-radius: 25px;
   border: 2px solid var(--modal-navy);
   text-decoration: none;
@@ -133,7 +156,7 @@
 
 .confirm-modal-btn:active {
   box-shadow: 0px 0px 0px var(--modal-navy);
-  background-color: #f7f363;
+  background-color: #fffdb8;
 }
 
 .decline-modal-btn {
@@ -152,17 +175,6 @@
   opacity: 0.7;
 }
 
-/* Tablet */
-/* @media screen and (max-width: 768px) {
-  .modal-content {
-    padding: 40px 32px;
-  }
-
-  .modal-description {
-    margin: 0.75rem 0 1.5rem 0;
-  }
-} */
-
 /* Mobile */
 @media screen and (max-width: 600px) {
   .modal-content {
@@ -177,22 +189,4 @@
     top: 5px;
     right: 5px;
   }
-
-  .confirm-modal-btn:active {
-    transform: translate(0px);
-  }
 }
-
-/* @media screen and (max-width: 400px) {
-  .modal-content {
-    padding: 24px 16px;
-  }
-
-  .modal-description {
-    margin: 0.5rem 0 1rem 0;
-  }
-
-  .discount-code {
-    margin-top: 15px;
-  }
-} */

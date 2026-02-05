@@ -28,11 +28,11 @@ class GoodrPopup {
       this.confirmBtn.addEventListener('click', e => this.handleConfirm(e));
     }
 
-    this.overlay.addEventListener('click', e => {
-      if (e.target === this.overlay) {
-        this.close();
-      }
-    });
+    // this.overlay.addEventListener('click', e => {
+    //   if (e.target === this.overlay) {
+    //     this.close();
+    //   }
+    // });
 
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape' && this.container.classList.contains('is-active')) {
@@ -48,10 +48,16 @@ class GoodrPopup {
   }
 
   close() {
-    this.container.classList.remove('is-active');
-    this.overlay.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-    sessionStorage.setItem(this.storageKey, 'true');
+    // Add closing animation class
+    this.container.classList.add('is-closing');
+
+    // Wait for animation to complete before hiding
+    setTimeout(() => {
+      this.container.classList.remove('is-active', 'is-closing');
+      this.overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      sessionStorage.setItem(this.storageKey, 'true');
+    }, 400); // Match CSS transition duration
   }
 
   handleConfirm(e) {
