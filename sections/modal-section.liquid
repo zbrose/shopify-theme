@@ -15,32 +15,56 @@
 				>
 			</button>
 
-			<div class="modal-hero">
+				<div class="modal-hero">
+				{% comment %} Logo: Always Eager, uses specific logo class {% endcomment %}
 				{% if section.settings.modal_logo %}
-					{{ section.settings.modal_logo | image_url: width: 748 | image_tag: class: 'modal-img', alt: section.settings.modal_logo_alt, loading: 'lazy', sizes: '(max-width: 600px) 252px, 484px', widths: '252, 400, 484, 748' }}
+					{{ section.settings.modal_logo | image_url: width: 500 | image_tag: 
+						class: 'modal-logo', 
+						alt: section.settings.modal_logo_alt, 
+						loading: 'eager' 
+					}}
 				{% else %}
 					<img 
 						src="{{ 'goodr_logo_white.svg' | asset_url }}" 
 						class="modal-logo" 
-						alt="Modal placeholder Logo"
-						loading="lazy"
+						alt="Modal Logo"
+						loading="eager"
 						width="200"
 						height="auto"
 					>
 				{% endif %}
+
+				{% comment %} Desktop Background {% endcomment %}
 				{% if section.settings.modal_image %}
-					{{ section.settings.modal_image | image_url: width: 748 | image_tag: class: 'modal-img', alt: section.settings.modal_image_alt, loading: 'lazy', sizes: '(max-width: 600px) 252px, 484px', widths: '252, 400, 484, 748' }}
+					{{ section.settings.modal_image | image_url: width: 1000 | image_tag: 
+						class: 'modal-img display-desktop', 
+						alt: section.settings.modal_image_alt, 
+						loading: 'eager',
+						widths: '484, 748, 1000' 
+					}}
 				{% else %}
-					<img 
-						src="{{ 'desktop_popup_img.png' | asset_url }}" 
-						class="modal-img" 
-						alt="Modal placeholder image"
-						loading="lazy"
-						width="484"
-						height="467"
-					>
+					<img src="{{ 'desktop_popup_img.png' | asset_url }}" class="modal-img display-desktop" alt="Desktop Image" loading="eager">
+				{% endif %}
+				
+				{% comment %} Mobile Background: Defaults to Desktop if Mobile is empty {% endcomment %}
+				{% if section.settings.modal_image_mobile %}
+					{{ section.settings.modal_image_mobile | image_url: width: 600 | image_tag: 
+						class: 'modal-img display-mobile', 
+						alt: section.settings.modal_image_alt, 
+						loading: 'eager',
+						widths: '326, 600' 
+					}}
+				{% elsif section.settings.modal_image %}
+					{{ section.settings.modal_image | image_url: width: 600 | image_tag: 
+						class: 'modal-img display-mobile', 
+						alt: section.settings.modal_image_alt, 
+						loading: 'eager' 
+					}}
+				{% else %}
+					<img src="{{ 'mobile_popup_img.png' | asset_url }}" class="modal-img display-mobile" alt="Mobile Image" loading="eager">
 				{% endif %}
 			</div>
+
 
 			<p class="modal-description">USE CODE <span class="discount-code">{{  section.settings.discount_code }}</span> FOR $5 OFF YOUR FIRST ORDER</p>
 
@@ -73,6 +97,11 @@
       "id": "modal_logo",
       "label": "Modal Logo"
     },
+		{
+			"type": "image_picker",
+			"id": "modal_image_mobile",
+			"label": "Mobile Image (Optional)"
+		},
 		{
 			"type": "text",
 			"id": "modal_logo_alt",
