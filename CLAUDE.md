@@ -1,0 +1,1 @@
+/Users/zachbrose/Desktop/shopify-projects/my-first-theme/AGENTS.md

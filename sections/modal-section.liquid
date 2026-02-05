@@ -1,0 +1,116 @@
+{{ 'modal-section.css' | asset_url | stylesheet_tag }}
+
+<div class="custom-modal-section">
+  <div class="modal-overlay" 
+		style="display: flex;"
+	>
+    <div class="modal-content">
+
+			<button class="close-modal-btn" aria-label="Close modal">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<line x1="20" y1="6" x2="6" y2="20"></line>
+					<line x1="6" y1="6" x2="20" y2="20"></line>
+				</svg>
+			</button>
+
+   		<div class="modal-hero">
+        <h2 class="modal-title">{{ section.settings.modal_title }}</h2>
+        {% if section.settings.modal_image %}
+          {{ section.settings.modal_image | image_url: width: 374, height: 360 | image_tag: width: 374, height: 360, class: 'modal-img' }}
+        {% else %}
+          <img src="https://placecats.com/374/360" width="100%" height="auto" class="modal-img" alt="Modal Image">
+        {% endif %}
+      </div>
+
+			<p class="modal-description">USE CODE <span class="discount-code">{{  section.settings.discount_code }}</span> FOR $5 OFF YOUR FIRST ORDER</p>
+
+
+
+			<div class="modal-btn-group">
+
+				<a class="confirm-modal-btn" href="{{ section.settings.confirm_button_link }}">
+						{{ section.settings.confirm_button_text }}
+				</a>
+	
+				<button class="decline-modal-btn">
+					{{ section.settings.decline_button_text }}
+				</button>
+
+			</div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Modal Popup",
+  "settings": [
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Open Modal"
+    },
+    {
+      "type": "text",
+      "id": "modal_title",
+      "label": "Modal Title",
+      "default": "goodr"
+    },
+    {
+      "type": "textarea",
+      "id": "modal_description",
+      "label": "Modal Description",
+    },
+    {
+      "type": "text",
+      "id": "close_button_text",
+      "label": "Close Button text",
+      "default": "X"
+    },
+    {
+      "type": "text",
+      "id": "confirm_button_text",
+      "label": "Confirm Button Text",
+      "default": "SHOP ALL STYLES"
+    },
+    {
+      "type": "text",
+      "id": "decline_button_text",
+      "label": "Confirm Button Text",
+      "default": "NAH, I HATE DEALS"
+    },
+    {
+      "type": "url",
+      "id": "confirm_button_link",
+      "label": "Confirm Button Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "modal_image",
+      "label": "Modal Image"
+    },
+    {
+      "type": "range",
+      "id": "delay_time",
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "unit": "sec",
+      "label": "Delay before showing",
+      "default": 2
+    },
+    {
+      "type": "text",
+      "id": "discount_code",
+			"default": "GOODR5",
+			"label": "Discount Code"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Modal Section"
+    }
+  ]
+}
+{% endschema %}
