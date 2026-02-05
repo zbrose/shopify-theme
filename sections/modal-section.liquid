@@ -1,84 +1,75 @@
 {{ 'modal-section.css' | asset_url | stylesheet_tag }}
 
-<div class="custom-modal-section" data-section-id="{{ section.id }}" data-delay="{{ section.settings.delay_time }}">
-  <div class="modal-overlay" aria-hidden="true">
-    <div class="modal-content">
+  <div class="custom-modal-section {% if section.settings.test_mode %}test-mode-active{% endif %}" 
+     data-section-id="{{ section.id }}" 
+     data-delay="{{ section.settings.delay_time }}">
+    <div class="modal-overlay" aria-hidden="true">
+      <div class="modal-content" role="dialog" aria-modal="true">
 
-			<button class="close-modal-btn" aria-label="Close modal">
-				<img 
-					src="{{ 'x.svg' | asset_url }}" 
-					class="close-icon" 
-					alt="Close Icon"
-					loading="lazy"
-					width="20"
-					height="20"	
-				>
-			</button>
+        <button class="close-modal-btn" aria-label="Close modal">
+          {% comment %} Using eager loading for icons too {% endcomment %}
+          <img src="{{ 'x.svg' | asset_url }}" class="close-icon" alt="" loading="eager" width="20" height="20">
+        </button>
 
-				<div class="modal-hero">
-				{% comment %} Logo: Always Eager, uses specific logo class {% endcomment %}
-				{% if section.settings.modal_logo %}
-					{{ section.settings.modal_logo | image_url: width: 500 | image_tag: 
-						class: 'modal-logo', 
-						alt: section.settings.modal_logo_alt, 
-						loading: 'eager' 
-					}}
-				{% else %}
-					<img 
-						src="{{ 'goodr_logo_white.svg' | asset_url }}" 
-						class="modal-logo" 
-						alt="Modal Logo"
-						loading="eager"
-						width="200"
-						height="auto"
-					>
-				{% endif %}
+        <div class="modal-hero">
+          {% comment %} Logo: Pull alt from image object if text field is empty {% endcomment %}
+          {%- liquid
+            assign logo_alt = section.settings.modal_logo.alt | default: section.settings.modal_logo_alt
+            assign main_alt = section.settings.modal_image.alt | default: section.settings.modal_image_alt
+          -%}
 
-				{% comment %} Desktop Background {% endcomment %}
-				{% if section.settings.modal_image %}
-					{{ section.settings.modal_image | image_url: width: 1000 | image_tag: 
-						class: 'modal-img display-desktop', 
-						alt: section.settings.modal_image_alt, 
-						loading: 'eager',
-						widths: '484, 748, 1000' 
-					}}
-				{% else %}
-					<img src="{{ 'desktop_popup_img.png' | asset_url }}" class="modal-img display-desktop" alt="Desktop Image" loading="eager">
-				{% endif %}
-				
-				{% comment %} Mobile Background: Defaults to Desktop if Mobile is empty {% endcomment %}
-				{% if section.settings.modal_image_mobile %}
-					{{ section.settings.modal_image_mobile | image_url: width: 600 | image_tag: 
-						class: 'modal-img display-mobile', 
-						alt: section.settings.modal_image_alt, 
-						loading: 'eager',
-						widths: '326, 600' 
-					}}
-				{% elsif section.settings.modal_image %}
-					{{ section.settings.modal_image | image_url: width: 600 | image_tag: 
-						class: 'modal-img display-mobile', 
-						alt: section.settings.modal_image_alt, 
-						loading: 'eager' 
-					}}
-				{% else %}
-					<img src="{{ 'mobile_popup_img.png' | asset_url }}" class="modal-img display-mobile" alt="Mobile Image" loading="eager">
-				{% endif %}
-			</div>
+          {% if section.settings.modal_logo %}
+            {{ section.settings.modal_logo | image_url: width: 500 | image_tag: class: 'modal-logo', alt: logo_alt, loading: 'eager' }}
+          {% else %}
+            <img src="{{ 'goodr_logo_white.svg' | asset_url }}" class="modal-logo" alt="Logo" loading="eager" width="200" height="auto">
+          {% endif %}
 
+          {% comment %} Desktop Background {% endcomment %}
+          {% if section.settings.modal_image %}
+            {{ section.settings.modal_image | image_url: width: 1000 | image_tag: class: 'modal-img display-desktop', alt: main_alt, loading: 'eager', widths: '484, 748, 1000' }}
+          {% else %}
+            <img src="{{ 'desktop_popup_img.png' | asset_url }}" class="modal-img display-desktop" alt="Desktop Background" loading="eager" width="100%" height="auto">
+          {% endif %}
+          
+          {% comment %} Mobile Background {% endcomment %}
+          {% if section.settings.modal_image_mobile %}
+            {{ section.settings.modal_image_mobile | image_url: width: 600 | image_tag: class: 'modal-img display-mobile', alt: main_alt, loading: 'eager', widths: '326, 600' }}
+          {% elsif section.settings.modal_image %}
+            {{ section.settings.modal_image | image_url: width: 600 | image_tag: class: 'modal-img display-mobile', alt: main_alt, loading: 'eager' }}
+					{% else %}
+						<img 
+							src="{{ 'mobile_popup_img.png' | asset_url }}" 
+							class="modal-img display-mobile" 
+							alt="Mobile Background" 
+							loading="eager" 
+							width="326" 
+							height="auto"
+						>
+          {% endif %}
+        </div>
 
-			<p class="modal-description">USE CODE <span class="discount-code">{{  section.settings.discount_code }}</span> FOR $5 OFF YOUR FIRST ORDER</p>
+        	{% comment %} Only show text if description or discount code exists {% endcomment %}
+					{%- liquid
+						assign discount_span = '<span class="discount-code">' | append: section.settings.discount_code | append: '</span>'
+						assign description_text = section.settings.modal_description | default: "USE CODE [code] FOR $5 OFF YOUR FIRST ORDER"
+						assign formatted_description = description_text | replace: '[code]', discount_span
+					-%}
 
-			<div class="modal-btn-group">
-				<a class="confirm-modal-btn" href="{{ section.settings.confirm_button_link }}">
-						{{ section.settings.confirm_button_text }}
-				</a>
-				<button class="decline-modal-btn">
-					{{ section.settings.decline_button_text }}
-				</button>
-			</div>
+					{% if formatted_description != blank %}
+						<p class="modal-description">{{ formatted_description }}</p>
+					{% endif %}
+
+        <div class="modal-btn-group">
+          <a class="confirm-modal-btn" href="{{ section.settings.confirm_button_link }}">
+            {{ section.settings.confirm_button_text | default: 'SHOP NOW' }}
+          </a>
+          <button class="decline-modal-btn" type="button">
+            {{ section.settings.decline_button_text | default: 'No Thanks' }}
+          </button>
+        </div>
+      </div>
     </div>
   </div>
-</div>
 
 <script src="{{ 'modal-section.js' | asset_url }}" defer></script>
 
@@ -115,15 +106,10 @@
 			"default": "Modal Image"
 		}, 
     {
-      "type": "textarea",
+      "type": "text",
       "id": "modal_description",
       "label": "Modal Description",
-    },
-    {
-      "type": "text",
-      "id": "close_button_text",
-      "label": "Close Button text",
-      "default": "X"
+			"default": "USE CODE [code] FOR $5 OFF YOUR FIRST ORDER"
     },
     {
       "type": "text",
@@ -134,13 +120,14 @@
     {
       "type": "text",
       "id": "decline_button_text",
-      "label": "Confirm Button Text",
+      "label": "Decline Button Text",
       "default": "NAH, I HATE DEALS"
     },
     {
       "type": "url",
       "id": "confirm_button_link",
-      "label": "Confirm Button Link"
+      "label": "Confirm Button Link",
+			"default": "/collections/all"
     },
     {
       "type": "image_picker",
@@ -162,7 +149,14 @@
       "id": "discount_code",
 			"default": "GOODR5",
 			"label": "Discount Code"
-    }
+    },
+		{
+			"type": "checkbox",
+			"id": "test_mode",
+			"label": "Force Open (Test Mode)",
+			"default": false,
+			"info": "Check this to keep the modal open while you style it in the editor."
+		}
   ],
   "presets": [
     {
