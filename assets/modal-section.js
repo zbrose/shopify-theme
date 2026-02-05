@@ -1,45 +1,68 @@
 class GoodrPopup {
   constructor(container) {
     this.container = container;
-    this.overlay = container.querySelector(".modal-overlay");
-    this.closeBtn = container.querySelector(".close-modal-btn");
+    this.overlay = container.querySelector('.modal-overlay');
+    this.closeBtn = container.querySelector('.close-modal-btn');
+    this.declineBtn = container.querySelector('.decline-modal-btn');
+    this.confirmBtn = container.querySelector('.confirm-modal-btn');
     this.storageKey = `goodr_popup_seen_${container.dataset.sectionId}`;
-    this.delay = parseInt(container.dataset.delay) * 1000;
+    this.delay = parseInt(container.dataset.delay) * 1000 || 3000;
 
     this.init();
   }
 
   init() {
-    if (localStorage.getItem(this.storageKey)) return;
+    if (sessionStorage.getItem(this.storageKey)) return;
 
     setTimeout(() => {
-      this.container.classList.add("is-active");
-      this.container.setAttribute("aria-hidden", "false");
+      this.show();
     }, this.delay);
 
-    this.closeBtn.addEventListener("click", () => this.close());
+    this.closeBtn.addEventListener('click', () => this.close());
 
-    const form = this.container.querySelector("form");
-    if (form) {
-      form.addEventListener("submit", (e) => this.handleSignup(e));
+    if (this.declineBtn) {
+      this.declineBtn.addEventListener('click', () => this.close());
     }
+
+    if (this.confirmBtn) {
+      this.confirmBtn.addEventListener('click', e => this.handleConfirm(e));
+    }
+
+    this.overlay.addEventListener('click', e => {
+      if (e.target === this.overlay) {
+        this.close();
+      }
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && this.container.classList.contains('is-active')) {
+        this.close();
+      }
+    });
+  }
+
+  show() {
+    this.container.classList.add('is-active');
+    this.overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
   }
 
   close() {
-    this.container.classList.remove("is-active");
-    this.container.setAttribute("aria-hidden", "true");
-    localStorage.setItem(this.storageKey, "true");
+    this.container.classList.remove('is-active');
+    this.overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    sessionStorage.setItem(this.storageKey, 'true');
   }
 
-  handleSignup(e) {
+  handleConfirm(e) {
     e.preventDefault();
-    console.log(
-      "Integration Hook: Data would be sent to Shopify/Klaviyo here.",
-    );
+    const shopUrl = this.confirmBtn.getAttribute('href') || '/collections/all';
+    sessionStorage.setItem(this.storageKey, 'true');
+    window.location.href = shopUrl;
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const popup = document.querySelector(".custom-modal-section");
+document.addEventListener('DOMContentLoaded', () => {
+  const popup = document.querySelector('.custom-modal-section');
   if (popup) new GoodrPopup(popup);
 });

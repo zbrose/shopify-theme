@@ -2,6 +2,11 @@
   --modal-navy: #0c2340;
   --goodr-shadow: -4px 4px var(--modal-navy);
   --goodr-font: canada-type-gibson, sans-serif;
+  display: none;
+}
+
+.custom-modal-section.is-active {
+  display: block;
 }
 
 .modal-overlay {
@@ -16,6 +21,10 @@
   z-index: 9999;
   background: rgba(0, 0, 0, 0.6);
   padding: 20px;
+}
+
+.custom-modal-section.is-active .modal-overlay {
+  background: rgba(0, 0, 0, 0.6);
 }
 
 .modal-content {
@@ -124,7 +133,6 @@
 
 .confirm-modal-btn:active {
   box-shadow: 0px 0px 0px var(--modal-navy);
-  transform: translate(4px, 4px);
   background-color: #f7f363;
 }
 

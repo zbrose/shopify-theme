@@ -1,7 +1,5 @@
-<div class="custom-modal-section" id="Section-{{ section.id }}">
-  <div class="modal-overlay" 
-		style="display: flex;"
-	>
+<div class="custom-modal-section" data-sectionid="Section-{{ section.id }}" data-delay="{{ section.settings.delay_time | default: 2 }}">
+  <div class="modal-overlay" aria-hidden="true">
     <div class="modal-content">
 
 			<button class="close-modal-btn" aria-label="Close modal">

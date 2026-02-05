@@ -1,9 +1,7 @@
 {{ 'modal-section.css' | asset_url | stylesheet_tag }}
 
-<div class="custom-modal-section">
-  <div class="modal-overlay" 
-		style="display: flex;"
-	>
+<div class="custom-modal-section" data-section-id="{{ section.id }}" data-delay="{{ section.settings.delay_time }}">
+  <div class="modal-overlay" aria-hidden="true">
     <div class="modal-content">
 
 			<button class="close-modal-btn" aria-label="Close modal">
@@ -31,22 +29,19 @@
 
 			<p class="modal-description">USE CODE <span class="discount-code">{{  section.settings.discount_code }}</span> FOR $5 OFF YOUR FIRST ORDER</p>
 
-
-
 			<div class="modal-btn-group">
-
 				<a class="confirm-modal-btn" href="{{ section.settings.confirm_button_link }}">
 						{{ section.settings.confirm_button_text }}
 				</a>
-	
 				<button class="decline-modal-btn">
 					{{ section.settings.decline_button_text }}
 				</button>
-
 			</div>
     </div>
   </div>
 </div>
+
+<script src="{{ 'modal-section.js' | asset_url }}" defer></script>
 
 {% schema %}
 {
